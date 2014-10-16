@@ -1,0 +1,110 @@
+---
+title: "Ph-like ALL supplementary example"
+date: "14 oktober 2014"
+output:
+  html_document:
+    theme: flatly
+---
+
+## Introduction
+
+This is an R-markdown document. It contains both code and text to help you run examples in R, and create fully reproducible reports!
+Here, we're going to read in supplementary data from a recent pediatric-ALL paper in NEJM.
+
+We need the `xlsx` package to read excel files directly. The other option is to export the table you're interested in as a `.csv` file, and read it in directly. 
+And the `ggplot2` package for making the plots. 
+
+```{r, echo=FALSE}
+# Set your working directory
+setwd("~/sandbox/ph-like-rmd-tutorial/")
+```
+
+## Loading the data
+
+To load the data, we have two options.
+
+1. Load the excel sheet directly, specifying that we want to read the first sheet. For this we need the `xlsx` package
+```{r, eval=FALSE}
+# Reading from Excel file
+library(xlsx)
+table <- read.xlsx("nejmoa1403088_appendix_1.xlsx", 1, na.strings="")
+```
+
+2. Load a CSV file or export your excel sheet as csv. In this tutorial, we have already converted the `xlsx` file to a `csv` file to avoid long loading times. Here we're going to load the csv-file from our current working directory.
+
+You can get the data from here: https://ki.box.com/nejm-supplementary
+
+```{r}
+# Reading from CSV file with ; as delimiter
+data <- read.csv2("Table S1-Tabell 1.csv")
+```
+
+***
+
+## Explore your data
+
+First, you may want to know just how much data there actually is in this table: 
+```{r}
+dim(data)
+```
+
+Ok, so we have >2000 cases with >50 different variables recorded.     
+What variables are those exactly? 
+
+```{r}
+colnames(data)
+```
+
+*** 
+
+Now we can start exploring our data, like what's the gender distribution: 
+```{r}
+table(data$Gender)
+barplot(table(data$Gender))
+```
+
+And if we want to make more beautiful plots, we can use `ggplot2` instead of base R:
+```{r}
+library(ggplot2)
+ggplot(data, aes(Gender)) + geom_histogram()
+```
+
+***
+
+I'm interested in seeing the distribution of different ALL subgroups within their study cohort. 
+Also, lets save the table to a variable so we can work on it some more.
+```{r}
+plot <- ggplot(data, aes(Group)) + geom_bar()
+print(plot)
+```
+
+The power of ggplot is that we can easily extend our plot, by adding layers.   
+For example, its meaningful in ALL to view subgroup distribution by age group. We can easily do that by using `facet_wrap`
+```{r}
+levels(data$Age)
+# Reorder the Age factors so that it goes from young to old, low to high risk
+data$Age <- factor(data$Age, levels=c("Childhood SR", "Childhood HR", "Adolescent", "Young adult"))
+levels(data$Age)
+plot <- ggplot(data, aes(Group, fill=Age)) + geom_bar()
+plot <- plot + facet_wrap(~Age)
+plot <- plot + theme_minimal()
+plot <- plot + theme(axis.text.x = element_text(angle=90, vjust=0.5))
+print(plot)
+```
+
+This can be extended infinitely
+```{r}
+data$Kinase.alteration <- factor(data$Kinase.alteration, levels=c("Not tested", "No", "Unknown", "Yes"))
+plot <- ggplot(data, aes(Group, fill=Kinase.alteration)) + geom_bar() + facet_wrap(~ Cohort)
+print(plot)
+summary(data$Kinase.alteration)
+```
+
+***
+
+If you'd rather show a pie chart, that is easy
+
+```{r}
+pie(table(data$Group))
+```
+

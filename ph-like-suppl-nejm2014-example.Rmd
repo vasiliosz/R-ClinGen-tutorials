@@ -4,6 +4,7 @@ date: "14 oktober 2014"
 output:
   html_document:
     theme: flatly
+    toc: true
 ---
 
 ## Introduction
@@ -73,6 +74,8 @@ ggplot(data, aes(Gender)) + geom_histogram()
 
 ***
 
+## More about plotting
+
 I'm interested in seeing the distribution of different ALL subgroups within their study cohort. 
 Also, lets save the table to a variable so we can work on it some more.
 ```{r}
@@ -94,12 +97,36 @@ plot <- plot + theme(axis.text.x = element_text(angle=90, vjust=0.5))
 print(plot)
 ```
 
-This can be extended infinitely
+
+In some cases, R will not automatically understand the type of data in each variable. 
+For example, here we need to tell it to treat white blood cell count (WBC) is an integer, not a factor.
+
+Also, we continue extending the usage of `ggplot`. 
 ```{r}
-data$Kinase.alteration <- factor(data$Kinase.alteration, levels=c("Not tested", "No", "Unknown", "Yes"))
-plot <- ggplot(data, aes(Group, fill=Kinase.alteration)) + geom_bar() + facet_wrap(~ Cohort)
+str(data$WBC)
+# Convert to integer
+data$WBC <- as.integer(as.character(data$WBC))
+# Now do summary of the variable
+summary(data$WBC)
+# And make a boxplot: a warning message will alert you to the 67 records that did not have a WBC recorded and are dropped
+plot <- ggplot(data, aes(Age, WBC, fill=Age))
+plot + geom_boxplot(notch=TRUE)
+```
+
+Some cases have really high WBCs. Maybe we should log-transform our Y-axis to better represent our data.
+```{r}
+plot + geom_boxplot(notch=TRUE) + scale_y_log10()
+plot + geom_violin(trim = FALSE) + scale_y_log10()
+```
+
+***
+
+Other ways of visualizing the difference in WBC distribution across age groups
+```{r}
+plot <- ggplot(data, aes(WBC)) + geom_density(fill = "black") + scale_x_log10() + facet_wrap(~Age, ncol=1)
 print(plot)
-summary(data$Kinase.alteration)
+plot2 <- ggplot(data, aes(WBC, fill=Age)) + geom_density(position="fill") + scale_x_log10() + scale_fill_brewer(type = "qual")
+print(plot2)
 ```
 
 ***

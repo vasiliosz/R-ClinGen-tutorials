@@ -58,7 +58,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>This is an R-markdown document. It contains both code and text to help you run examples in R, and create fully reproducible reports! Here, we’re going to read in supplementary data from a recent pediatric-ALL paper in NEJM.</p>
+<p>This is an R-markdown document. It contains both code and text to help you run examples in R, and create fully reproducible reports! Here, we’re going to read in supplementary data from a recent pediatric-ALL paper in NEJM</p>
+<blockquote>
+<p>Targetable Kinase-Activating Lesions in Ph-like Acute Lymphoblastic Leukemia. Roberts et al, NEJM 2014 (DOI: 10.1056/NEJMoa1403088)</p>
+</blockquote>
 <p>We need the <code>xlsx</code> package to read excel files directly. The other option is to export the table you’re interested in as a <code>.csv</code> file, and read it in directly. And the <code>ggplot2</code> package for making the plots.</p>
 </div>
 <div id="loading-the-data" class="section level2">
@@ -69,13 +72,13 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </ol>
 <pre class="r"><code># Reading from Excel file
 library(xlsx)
-table &lt;- read.xlsx(&quot;nejmoa1403088_appendix_1.xlsx&quot;, 1, na.strings=&quot;&quot;)</code></pre>
+data &lt;- read.xlsx(&quot;nejmoa1403088_appendix_1.xlsx&quot;, 1, na.strings=&quot;&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Load a CSV file or export your excel sheet as csv. In this tutorial, we have already converted the <code>xlsx</code> file to a <code>csv</code> file to avoid long loading times. Here we’re going to load the csv-file from our current working directory.</li>
+<li>Load a CSV file or export your excel sheet as csv. In this tutorial, we have already converted the <code>xlsx</code> file to a <code>csv</code> file to avoid long loading times. I did this simply by opening the <code>.xlsx</code> file in Excel/OpenOffice and exporting as a csv. Depending on how strict the original authors have been with formatting (like, not mixing “;” and “,” as separators of records) - this should be easy.</li>
 </ol>
-<p>You can get the data from here: <a href="https://ki.box.com/nejm-supplementary">https://ki.box.com/nejm-supplementary</a></p>
+<p>Here we’re going to load the csv-file from our current working directory. You can get the data from here: <a href="https://github.com/vasiliosz/R-CMM-tutorial-141016/table_S1.csv">https://github.com/vasiliosz/R-CMM-tutorial-141016/table_S1.csv</a></p>
 <pre class="r"><code># Reading from CSV file with ; as delimiter
-data &lt;- read.csv2(&quot;Table S1-Tabell 1.csv&quot;)</code></pre>
+data &lt;- read.csv(&quot;table_s1.csv&quot;)</code></pre>
 <hr />
 </div>
 <div id="explore-your-data" class="section level2">

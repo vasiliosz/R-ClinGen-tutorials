@@ -11,7 +11,7 @@ output:
 This is an R-markdown document. It contains both code and text to help you run examples in R, and create fully reproducible reports!
 Here, we're going to read in supplementary data from a recent pediatric-ALL paper in NEJM
 
-> Targetable Kinase-Activating Lesions in Ph-like Acute Lymphoblastic Leukemia. Roberts et al, NEJM 2014 (DOI: 10.1056/NEJMoa1403088)
+> Targetable Kinase-Activating Lesions in Ph-like Acute Lymphoblastic Leukemia. *Roberts et al, NEJM 2014* (DOI:10.1056/NEJMoa1403088)
 
 We need the `xlsx` package to read excel files directly. The other option is to export the table you're interested in as a `.csv` file, and read it in directly. 
 And the `ggplot2` package for making the plots. 
@@ -29,16 +29,16 @@ To load the data, we have two options.
 ```{r, eval=FALSE}
 # Reading from Excel file
 library(xlsx)
-table <- read.xlsx("nejmoa1403088_appendix_1.xlsx", 1, na.strings="")
+data <- read.xlsx("nejmoa1403088_appendix_1.xlsx", 1, na.strings="")
 ```
 
-2. Load a CSV file or export your excel sheet as csv. In this tutorial, we have already converted the `xlsx` file to a `csv` file to avoid long loading times. Here we're going to load the csv-file from our current working directory.
+2. Load a CSV file or export your excel sheet as csv. In this tutorial, we have already converted the `xlsx` file to a `csv` file to avoid long loading times. I did this simply by opening the `.xlsx` file in Excel/OpenOffice and exporting as a csv. Depending on how strict the original authors have been with formatting (like, not mixing ";" and "," as separators of records) - this should be easy.
 
-You can get the data from here: https://ki.box.com/nejm-supplementary
+Here we're going to load the csv-file from our current working directory. You can get the data from here: https://github.com/vasiliosz/R-CMM-tutorial-141016/table_S1.csv
 
 ```{r}
 # Reading from CSV file with ; as delimiter
-data <- read.csv2("Table S1-Tabell 1.csv")
+data <- read.csv("table_s1.csv")
 ```
 
 ***

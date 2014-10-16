@@ -9,7 +9,9 @@ output:
 ## Introduction
 
 This is an R-markdown document. It contains both code and text to help you run examples in R, and create fully reproducible reports!
-Here, we're going to read in supplementary data from a recent pediatric-ALL paper in NEJM.
+Here, we're going to read in supplementary data from a recent pediatric-ALL paper in NEJM
+
+> Targetable Kinase-Activating Lesions in Ph-like Acute Lymphoblastic Leukemia. Roberts et al, NEJM 2014 (DOI: 10.1056/NEJMoa1403088)
 
 We need the `xlsx` package to read excel files directly. The other option is to export the table you're interested in as a `.csv` file, and read it in directly. 
 And the `ggplot2` package for making the plots. 

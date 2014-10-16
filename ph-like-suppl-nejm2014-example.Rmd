@@ -34,7 +34,7 @@ data <- read.xlsx("nejmoa1403088_appendix_1.xlsx", 1, na.strings="")
 
 2. Load a CSV file or export your excel sheet as csv. In this tutorial, we have already converted the `xlsx` file to a `csv` file to avoid long loading times. I did this simply by opening the `.xlsx` file in Excel/OpenOffice and exporting as a csv. Depending on how strict the original authors have been with formatting (like, not mixing ";" and "," as separators of records) - this should be easy.
 
-Here we're going to load the csv-file from our current working directory. You can get the data from here: https://github.com/vasiliosz/R-CMM-tutorial-141016/table_S1.csv
+Here we're going to load the csv-file from our current working directory. You can get the data from here: https://github.com/vasiliosz/R-CMM-tutorial-141016/raw/gh-pages/table_s1.csv (or right-click, save target as)
 
 ```{r}
 # Reading from CSV file with ; as delimiter

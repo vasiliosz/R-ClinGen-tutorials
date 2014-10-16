@@ -60,7 +60,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <h2>Introduction</h2>
 <p>This is an R-markdown document. It contains both code and text to help you run examples in R, and create fully reproducible reports! Here, we’re going to read in supplementary data from a recent pediatric-ALL paper in NEJM</p>
 <blockquote>
-<p>Targetable Kinase-Activating Lesions in Ph-like Acute Lymphoblastic Leukemia. Roberts et al, NEJM 2014 (DOI: 10.1056/NEJMoa1403088)</p>
+<p>Targetable Kinase-Activating Lesions in Ph-like Acute Lymphoblastic Leukemia. <em>Roberts et al, NEJM 2014</em> (<a href="DOI:10.1056/NEJMoa1403088">DOI:10.1056/NEJMoa1403088</a>)</p>
 </blockquote>
 <p>We need the <code>xlsx</code> package to read excel files directly. The other option is to export the table you’re interested in as a <code>.csv</code> file, and read it in directly. And the <code>ggplot2</code> package for making the plots.</p>
 </div>
@@ -76,7 +76,7 @@ data &lt;- read.xlsx(&quot;nejmoa1403088_appendix_1.xlsx&quot;, 1, na.strings=&q
 <ol start="2" style="list-style-type: decimal">
 <li>Load a CSV file or export your excel sheet as csv. In this tutorial, we have already converted the <code>xlsx</code> file to a <code>csv</code> file to avoid long loading times. I did this simply by opening the <code>.xlsx</code> file in Excel/OpenOffice and exporting as a csv. Depending on how strict the original authors have been with formatting (like, not mixing “;” and “,” as separators of records) - this should be easy.</li>
 </ol>
-<p>Here we’re going to load the csv-file from our current working directory. You can get the data from here: <a href="https://github.com/vasiliosz/R-CMM-tutorial-141016/table_S1.csv">https://github.com/vasiliosz/R-CMM-tutorial-141016/table_S1.csv</a></p>
+<p>Here we’re going to load the csv-file from our current working directory. You can get the data from here: <a href="https://github.com/vasiliosz/R-CMM-tutorial-141016/raw/gh-pages/table_s1.csv">https://github.com/vasiliosz/R-CMM-tutorial-141016/raw/gh-pages/table_s1.csv</a> (or right-click, save target as)</p>
 <pre class="r"><code># Reading from CSV file with ; as delimiter
 data &lt;- read.csv(&quot;table_s1.csv&quot;)</code></pre>
 <hr />

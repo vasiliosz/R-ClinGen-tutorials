@@ -1,0 +1,93 @@
+---
+title: "R hands on - handling supplementary material of a paper of interest in R"
+author: "Bianca Tesi"
+date: "October 1, 2014"
+output: html_document
+---
+
+**R tutorial** \
+
+1. Download the supplementary material from a paper of interest concerning gene expression data \
+The paper that we will use here is **"Chromatin state dynamics during blood formation"** by Lara-Astiago et al. 2014, recently published in Science \
+
+You can download the file (the TableS2 of the supplementary material) from this link: [https://ki.box.com/shared/static/av9p9sbsr7tt9xrdrxu5.txt](https://ki.box.com/shared/static/av9p9sbsr7tt9xrdrxu5.txt) \
+If you are curious about the paper, here is the link: [http://www.sciencemag.org/content/345/6199/943.abstract](http://www.sciencemag.org/content/345/6199/943.abstract)
+
+2. Read the file into R, but first:
+* install the packages that we will use: *ggplot2* and *reshape2*
+* set the working directory to the directory where you have downloaded the file using the setwd command
+
+
+```{r}
+#load libraries
+#if you don't have them installed run:
+#install.packages("gglot2")
+#install.packages("reshape2")
+
+library(ggplot2)
+library(reshape2)
+
+setwd("~/Desktop")
+
+data <- read.table("1256271tableS2.txt", header=TRUE, sep="\t")
+
+```
+
+
+3. Suppose you want to check the expressions of your favorite genes in the cell populations studied in the paper and you want to make a plot \
+-
+- Have a look at how many rows and column your table has (using the function *dim*) \
+- Have a look at the column names to identify the column with the gene name information \
+- The see the first 6 lines of the column containing the gene names \
+- Then define a vector with your genes of interest  \
+
+```{r}
+dim(data)
+
+colnames(data)
+
+head(data$NAME)
+
+mygenes <- c("Vamp1", "Vamp2","Vamp3","Vamp4","Vamp5","Vamp6","Vamp7","Vamp8")
+mygenes
+
+```
+
+Now we will only keep the expression data for the genes in your vector "mygenes":
+- using the function *which* we can match the rows in the dataframe referring to genes in our vector
+- now you can *melt* the created dataset (function within the reshape2 package)
+- have a look at it
+- as you can see the first 9 rows are not revelant for looking at gene expression, so we cna remove them
+
+```{r}
+
+data_mygenes <- data[which(data$NAME %in% mygenes),]
+
+data_mygenesM <- melt(data_mygenes, id="NAME")
+#ignore the warning message
+
+head(data_mygenesM, n=20)
+
+data_mygenesM <- unique(data_mygenesM[10:nrow(data_mygenesM),])
+
+```
+Now we are ready to plot.
+We will do it using *ggplot2*, an R package that makes nicer plot than the default R package for printing. \
+
+The information you will give to the function *ggplot* are: \
+- the name of the dataset \
+- the columns that will represent the x and y in your plot \
+- the kind of plot (a bar plot) \
+- How the different bars should be colored (in this case by cell type) \
+
+```{r}
+ggplot(data_mygenesM, aes(data_mygenesM$NAME, as.numeric(data_mygenesM$value))) +    geom_bar(aes(fill = data_mygenesM$variable), position = "dodge", stat="identity")
+
+```
+\
+You can also make the plot prettier by adding proper axis labels and a title to your plot:
+\
+```{r}
+ggplot(data_mygenesM, aes(data_mygenesM$NAME, as.numeric(data_mygenesM$value))) +    geom_bar(aes(fill = data_mygenesM$variable), position = "dodge", stat="identity") + xlab("") + ylab("Expression values") + ggtitle("Expression of Vamp proteins")
+
+```
